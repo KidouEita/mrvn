@@ -7,7 +7,7 @@ android {
     compileSdk = 32
 
     defaultConfig {
-        applicationId = "tw.eita.mvrn"
+        applicationId = "tw.eita.mrvn"
         minSdk = 21
         targetSdk = 32
         versionCode = 1

@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">MVRN</string>
+    <string name="app_name">MRVN</string>
+
+    <string-array name="main_selection">
+        <item>Craft Rotation</item>
+        <item>Predator RP/AP needed</item>
+        <item>selection2</item>
+        <item>selection3</item>
+        <item>selection4</item>
+    </string-array>
 </resources>

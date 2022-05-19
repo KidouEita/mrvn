@@ -1,17 +1,26 @@
-package tw.eita.mvrn.ui
+package tw.eita.mrvn.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.Card
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import tw.eita.mrvn.R
 
 @Composable
 fun MainScreen() {
+    val context = LocalContext.current
     Box {
         Image(
             painter = rememberAsyncImagePainter("https:\\/\\/apexlegendsstatus.com\\/assets\\/maps\\/Storm_Point.png"),
@@ -24,6 +33,11 @@ fun MainScreen() {
         ) {
             LazyRow {
                 items(5) { NewsCard() }
+            }
+            stringArrayResource(id = R.array.main_selection).forEach { selectionString ->
+                Selection(selectionString) {
+                    Toast.makeText(context, selectionString, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -44,6 +58,24 @@ fun NewsCard() {
             ),
             contentDescription = "News",
             contentScale = ContentScale.Crop
+        )
+    }
+}
+
+@Composable
+fun Selection(
+    buttonText: String,
+    onClick: (() -> Unit)? = null
+) {
+    TextButton(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = { onClick?.invoke() }
+    ) {
+        Text(
+            text = buttonText,
+            fontSize = 20.sp,
+            textAlign = TextAlign.Start,
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }

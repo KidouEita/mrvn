@@ -1,4 +1,4 @@
-package tw.eita.mvrn
+package tw.eita.mrvn
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,19 +6,15 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import tw.eita.mvrn.ui.MainScreen
-import tw.eita.mvrn.ui.theme.MVRNTheme
+import tw.eita.mrvn.ui.MainScreen
+import tw.eita.mrvn.ui.theme.MRVNTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MVRNTheme {
+            MRVNTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),

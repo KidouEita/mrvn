@@ -1,4 +1,4 @@
-package tw.eita.mvrn.ui.theme
+package tw.eita.mrvn.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,4 +1,4 @@
-package tw.eita.mvrn
+package tw.eita.mrvn
 
 import org.junit.Test
 

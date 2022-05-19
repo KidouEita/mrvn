@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "MVRN"
+rootProject.name = "MRVN"
 include(":app")
