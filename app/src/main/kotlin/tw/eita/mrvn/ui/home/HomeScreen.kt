@@ -26,12 +26,15 @@ import tw.eita.mrvn.data.News
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
+
     val newsList by viewModel.news.observeAsState(listOf())
+    val map by viewModel.map.observeAsState()
     val context = LocalContext.current
+
     Box {
         Image(
-            painter = rememberAsyncImagePainter("https:\\/\\/apexlegendsstatus.com\\/assets\\/maps\\/Storm_Point.png"),
-            contentDescription = "background",
+            painter = rememberAsyncImagePainter(map?.current?.asset),
+            contentDescription = map?.current?.map,
             contentScale = ContentScale.Crop,
             modifier = Modifier.matchParentSize()
         )
@@ -39,6 +42,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
             modifier = Modifier.fillMaxWidth()
         ) {
             NewsListView(newsList = newsList)
+            Text(text = "Current map is ${map?.current?.map}")
             stringArrayResource(id = R.array.main_selection).forEach { selectionString ->
                 Selection(selectionString) {
                     Toast.makeText(context, selectionString, Toast.LENGTH_SHORT).show()

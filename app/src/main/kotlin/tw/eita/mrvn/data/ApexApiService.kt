@@ -15,6 +15,9 @@ interface ApexApiService {
     @GET("news")
     suspend fun fetchNews(): List<News>
 
+    @GET("maprotation")
+    suspend fun fetchMapRotation(): MapObj
+
     companion object {
         val instance: ApexApiService by lazy {
             val logging = HttpLoggingInterceptor()
