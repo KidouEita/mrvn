@@ -12,7 +12,11 @@ data class CurrentMap(
     override val code: String,
     val asset: String,
     val remainingSecs: Int
-) : IMap
+) : IMap {
+
+    val startMillis get() = start * 1000
+    val endMillis get() = end * 1000
+}
 
 data class Map(
     override val start: Long,

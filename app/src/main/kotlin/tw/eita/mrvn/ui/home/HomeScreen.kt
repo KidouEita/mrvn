@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import tw.eita.mrvn.R
 import tw.eita.mrvn.data.News
+import tw.eita.mrvn.toReadableTime
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
@@ -42,7 +44,14 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
             modifier = Modifier.fillMaxWidth()
         ) {
             NewsListView(newsList = newsList)
-            Text(text = "Current map is ${map?.current?.map}")
+            Text(
+                text = "Current map is ${map?.current?.map}\n" +
+                        "End at ${map?.current?.endMillis?.toReadableTime()}\n" +
+                        "Next map is ${map?.next?.map}",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(10.dp)
+            )
             stringArrayResource(id = R.array.main_selection).forEach { selectionString ->
                 Selection(selectionString) {
                     Toast.makeText(context, selectionString, Toast.LENGTH_SHORT).show()
