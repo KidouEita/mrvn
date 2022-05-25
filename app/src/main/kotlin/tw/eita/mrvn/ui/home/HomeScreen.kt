@@ -1,6 +1,5 @@
 package tw.eita.mrvn.ui.home
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -13,27 +12,32 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import tw.eita.mrvn.R
+import tw.eita.mrvn.Screen
 import tw.eita.mrvn.data.News
 import tw.eita.mrvn.toReadableTime
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel = viewModel()
+) {
 
     val newsList by viewModel.news.observeAsState(listOf())
     val map by viewModel.map.observeAsState()
-    val context = LocalContext.current
 
-    Box {
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Image(
             painter = rememberAsyncImagePainter(map?.current?.asset),
             contentDescription = map?.current?.map,
@@ -52,10 +56,8 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(10.dp)
             )
-            stringArrayResource(id = R.array.main_selection).forEach { selectionString ->
-                Selection(selectionString) {
-                    Toast.makeText(context, selectionString, Toast.LENGTH_SHORT).show()
-                }
+            Selection(buttonText = stringResource(id = R.string.craft_rotation)) {
+                navController.navigate(Screen.CraftScreen.route)
             }
         }
     }
