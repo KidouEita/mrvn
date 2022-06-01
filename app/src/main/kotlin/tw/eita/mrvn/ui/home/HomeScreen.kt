@@ -2,6 +2,7 @@ package tw.eita.mrvn.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
@@ -21,6 +22,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import tw.eita.mrvn.R
 import tw.eita.mrvn.Screen
 import tw.eita.mrvn.data.News
@@ -34,30 +37,38 @@ fun HomeScreen(
 
     val newsList by viewModel.news.observeAsState(listOf())
     val map by viewModel.map.observeAsState()
+    val isRefresh by viewModel.isRefresh.observeAsState(false)
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = rememberAsyncImagePainter(map?.current?.asset),
             contentDescription = map?.current?.map,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.matchParentSize()
+            modifier = Modifier.fillMaxSize()
         )
-        Column(
-            modifier = Modifier.fillMaxWidth()
+
+        SwipeRefresh(
+            modifier = Modifier.fillMaxSize(),
+            onRefresh = { viewModel.refresh() },
+            state = rememberSwipeRefreshState(isRefresh)
         ) {
-            NewsListView(newsList = newsList)
-            Text(
-                text = "Current map is ${map?.current?.map}\n" +
-                        "End at ${map?.current?.endMillis?.toReadableTime()}\n" +
-                        "Next map is ${map?.next?.map}",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(10.dp)
-            )
-            Selection(buttonText = stringResource(id = R.string.craft_rotation)) {
-                navController.navigate(Screen.CraftScreen.route)
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                item { NewsListView(newsList = newsList) }
+                item {
+                    Text(
+                        text = "Current map is ${map?.current?.map}\n" +
+                                "End at ${map?.current?.endMillis?.toReadableTime()}\n" +
+                                "Next map is ${map?.next?.map}",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(10.dp)
+                    )
+                }
+                item {
+                    Selection(buttonText = stringResource(id = R.string.craft_rotation)) {
+                        navController.navigate(Screen.CraftScreen.route)
+                    }
+                }
             }
         }
     }
@@ -76,7 +87,7 @@ fun NewsListView(newsList: List<News>) {
 fun NewsCard(news: News) {
     Card(
         modifier = Modifier
-            .width(300.dp)
+            .width(350.dp)
             .wrapContentHeight()
             .padding(10.dp)
     ) {
@@ -85,7 +96,7 @@ fun NewsCard(news: News) {
                 painter = rememberAsyncImagePainter(model = news.img),
                 contentDescription = news.description,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.size(350.dp, 200.dp)
             )
             Text(
                 text = news.title ?: "no title",

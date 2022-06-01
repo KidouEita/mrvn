@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import tw.eita.mrvn.data.ApexApiService
 import tw.eita.mrvn.data.MapObj
 import tw.eita.mrvn.data.News
@@ -21,26 +20,25 @@ class HomeViewModel : ViewModel() {
     val map: LiveData<MapObj>
         get() = _map
 
+    private val _isRefresh = MutableLiveData(false)
+    val isRefresh: LiveData<Boolean>
+        get() = _isRefresh
+
     init {
-        fetchMaps()
-        fetchNews()
+        refresh()
     }
 
-    private fun fetchNews() {
+    fun refresh() {
         viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                ApexApiService.instance.fetchNews()
-            }
-            _news.postValue(result)
-        }
-    }
+            _isRefresh.postValue(true)
 
-    private fun fetchMaps() {
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                ApexApiService.instance.fetchMapRotation()
-            }
-            _map.postValue(result)
+            val newsFetched = async { ApexApiService.instance.fetchNews() }
+            val mapFetched = async { ApexApiService.instance.fetchMapRotation() }
+
+            _news.postValue(newsFetched.await())
+            _map.postValue(mapFetched.await())
+
+            _isRefresh.postValue(false)
         }
     }
 
