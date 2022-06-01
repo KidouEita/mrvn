@@ -18,6 +18,9 @@ interface ApexApiService {
     @GET("maprotation")
     suspend fun fetchMapRotation(): MapObj
 
+    @GET("crafting")
+    suspend fun fetchCraft(): List<CraftBundle>
+
     companion object {
         val instance: ApexApiService by lazy {
             val logging = HttpLoggingInterceptor()

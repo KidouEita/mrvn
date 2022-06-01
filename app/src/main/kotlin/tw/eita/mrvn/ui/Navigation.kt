@@ -16,7 +16,7 @@ fun Navigation() {
             HomeScreen(navController = navController)
         }
         composable(route = Screen.CraftScreen.route) {
-            CraftScreen()
+            CraftScreen(navController = navController)
         }
     }
 }
