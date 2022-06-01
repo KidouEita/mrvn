@@ -1,6 +1,9 @@
 package tw.eita.mrvn.ui.home
 
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -13,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -85,11 +89,17 @@ fun NewsListView(newsList: List<News>) {
 
 @Composable
 fun NewsCard(news: News) {
+    val context = LocalContext.current
     Card(
         modifier = Modifier
             .width(350.dp)
             .wrapContentHeight()
             .padding(10.dp)
+            .clickable {
+                val customTabBuilder = CustomTabsIntent.Builder()
+                val customTabsIntent = customTabBuilder.build()
+                customTabsIntent.launchUrl(context, Uri.parse(news.link))
+            }
     ) {
         Column {
             Image(

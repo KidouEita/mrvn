@@ -78,6 +78,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.23.0")
+    implementation("androidx.browser:browser:1.4.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
