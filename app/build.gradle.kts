@@ -58,7 +58,6 @@ android {
 
 dependencies {
 
-    testImplementation("org.junit.jupiter:junit-jupiter")
     val composeVersion = rootProject.extra.get("compose_version").toString()
 
     implementation("androidx.core:core-ktx:1.7.0")
