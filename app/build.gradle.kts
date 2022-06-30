@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -17,17 +19,20 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+
+        buildConfigField("String","API_KEY", properties.getProperty("API_KEY"))
     }
 
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false
             buildConfigField("String", "API_BASE_URL", "\"https://api.mozambiquehe.re/\"")
-            buildConfigField("String", "API_KEY", "\"63ab569cf6c1ed37507f3fb27aeab2d0\"")
         }
         getByName("release") {
             buildConfigField("String", "API_BASE_URL", "\"https://api.mozambiquehe.re/\"")
-            buildConfigField("String", "API_KEY", "\"63ab569cf6c1ed37507f3fb27aeab2d0\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
