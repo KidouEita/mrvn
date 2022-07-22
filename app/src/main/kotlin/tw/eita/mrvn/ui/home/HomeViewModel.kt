@@ -2,15 +2,15 @@ package tw.eita.mrvn.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import tw.eita.mrvn.data.ApexApiService
 import tw.eita.mrvn.data.MapObj
 import tw.eita.mrvn.data.News
+import tw.eita.mrvn.ui.BaseViewModel
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel : BaseViewModel() {
 
     private val _news = MutableLiveData(listOf<News>())
     val news: LiveData<List<News>>
@@ -29,7 +29,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun refresh() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _isRefresh.postValue(true)
 
             val newsFetched = async { ApexApiService.instance.fetchNews() }

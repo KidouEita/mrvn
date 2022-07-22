@@ -2,15 +2,15 @@ package tw.eita.mrvn.ui.craft
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tw.eita.mrvn.data.ApexApiService
 import tw.eita.mrvn.data.CraftBundle
+import tw.eita.mrvn.ui.BaseViewModel
 
-class CraftViewModel : ViewModel() {
+class CraftViewModel : BaseViewModel() {
 
     private val _craft = MutableLiveData<List<CraftBundle>>(listOf())
     val craft: LiveData<List<CraftBundle>>
@@ -21,7 +21,7 @@ class CraftViewModel : ViewModel() {
     }
 
     private fun fetchCraftList() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             val result = withContext(Dispatchers.IO) {
                 ApexApiService.instance.fetchCraft()
             }
