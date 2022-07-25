@@ -3,14 +3,17 @@ package tw.eita.mrvn.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import tw.eita.mrvn.data.ApexApiService
 import tw.eita.mrvn.data.MapObj
 import tw.eita.mrvn.data.News
 import tw.eita.mrvn.ui.BaseViewModel
+import javax.inject.Inject
 
-class HomeViewModel : BaseViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val apiService: ApexApiService) : BaseViewModel() {
 
     private val _news = MutableLiveData(listOf<News>())
     val news: LiveData<List<News>>
@@ -32,8 +35,8 @@ class HomeViewModel : BaseViewModel() {
         viewModelScope.launch(exceptionHandler) {
             _isRefresh.postValue(true)
 
-            val newsFetched = async { ApexApiService.instance.fetchNews() }
-            val mapFetched = async { ApexApiService.instance.fetchMapRotation() }
+            val newsFetched = async { apiService.fetchNews() }
+            val mapFetched = async { apiService.fetchMapRotation() }
 
             _news.postValue(newsFetched.await())
             _map.postValue(mapFetched.await())

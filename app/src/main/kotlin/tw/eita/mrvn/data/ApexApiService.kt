@@ -21,33 +21,4 @@ interface ApexApiService {
     @GET("crafting")
     suspend fun fetchCraft(): List<CraftBundle>
 
-    companion object {
-        val instance: ApexApiService by lazy {
-            val logging = HttpLoggingInterceptor()
-                .apply {
-                    level = HttpLoggingInterceptor.Level.BASIC
-                }
-            val client = OkHttpClient.Builder()
-                .addInterceptor(Interceptor { chain ->
-                    var request = chain.request()
-                    val url =
-                        request.url.newBuilder().addQueryParameter("auth", BuildConfig.API_KEY)
-                            .build()
-                    request = request.newBuilder().url(url).build()
-                    chain.proceed(request)
-                })
-                .addInterceptor(logging)
-                .build()
-            val moshi = Moshi.Builder()
-                .addLast(KotlinJsonAdapterFactory())
-                .build()
-            val retrofit = Retrofit.Builder()
-                .baseUrl(BuildConfig.API_BASE_URL)
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .client(client)
-                .build()
-            retrofit.create(ApexApiService::class.java)
-        }
-    }
-
 }

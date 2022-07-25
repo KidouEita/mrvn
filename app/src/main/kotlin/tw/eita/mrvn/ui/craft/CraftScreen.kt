@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -28,9 +29,10 @@ import tw.eita.mrvn.data.Craft
 
 @Composable
 fun CraftScreen(
-    navController: NavController,
-    viewModel: CraftViewModel = viewModel()
+    navController: NavController
 ) {
+    val viewModel = hiltViewModel<CraftViewModel>()
+
     val craftList by viewModel.craft.observeAsState(listOf())
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         item {

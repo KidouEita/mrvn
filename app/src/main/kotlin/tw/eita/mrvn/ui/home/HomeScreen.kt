@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -35,9 +36,10 @@ import tw.eita.mrvn.toReadableTime
 
 @Composable
 fun HomeScreen(
-    navController: NavController,
-    viewModel: HomeViewModel = viewModel()
+    navController: NavController
 ) {
+
+    val viewModel = hiltViewModel<HomeViewModel>()
 
     val newsList by viewModel.news.observeAsState(listOf())
     val map by viewModel.map.observeAsState()
